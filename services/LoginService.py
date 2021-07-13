@@ -7,6 +7,11 @@ from config import DEFAULT_HEADERS
 class LoginService:
     def __init__(self, wp_url: str):
         self.wp_url = wp_url
+    
+    def is_xmlrpc_enabled(self):
+        response = requests.post(f'{self.wp_url}/xmlrpc.php', headers=DEFAULT_HEADERS)
+
+        return response.ok
 
     def check_admin_login(self, username: str, password: str):
         payload = (

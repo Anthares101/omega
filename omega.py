@@ -25,7 +25,9 @@ def main(args: Namespace):
 
     with log.progress('Trying to get an admin session...') as p:
         login_service = LoginService(wp_url)
-        login_service.check_admin_login(username, password)
+        if(login_service.is_xmlrpc_enabled()):
+            p.status('Looks like the site has xmlrpc enabled')
+            login_service.check_admin_login(username, password)
         wp_admin_session = login_service.get_wp_admin_session(username, password)
         p.success('Got admin session!')
 
