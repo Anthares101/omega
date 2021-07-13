@@ -1,6 +1,6 @@
 # Omega - From Wordpress admin to shell
 
-This tool is to automate the process of getting a shell once you got admin credentials in a Wordpress site.
+This tool is to automate the process of getting a shell once you got admin credentials in a Wordpress site. Keep in mind that right now Omega only can attack Linux hosts.
 
 ![Omega getting a shell to a Wordpress host](assets/demo.gif)
 
@@ -26,7 +26,7 @@ You can use a virtual env to install the dependencies or intall them system wide
 
 If you have all the requirements you can start playing with Omega! You can add the repository folder to your `PATH` and execute the tool everywhere.
 
-```bash
+```
 Omega - From Wordpress admin to shell
 
 usage: omega.py [-h] -u WP_URL -l USERNAME -p PASSWORD -H LHOST [-P LPORT]
