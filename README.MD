@@ -1,10 +1,12 @@
+<img alt="GitHub" src="https://img.shields.io/badge/version-v1.1-blue"> <img alt="GitHub" src="https://img.shields.io/github/license/anthares101/omega">
+
 # Omega - From Wordpress admin to shell
 
 This tool is to automate the process of getting a shell once you got admin credentials in a Wordpress site. Keep in mind that right now Omega only can attack Linux hosts.
 
 ![Omega getting a shell to a Wordpress host](assets/demo.gif)
 
-## How it works?
+## How does it work?
 
 First Omega get an admin session in the Wordpress site and using web scrapping, it extracts the current template used by wordpress. After that, it will use the template editor to inject a simple web shell.
 
