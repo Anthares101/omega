@@ -28,7 +28,7 @@ class ShellService:
         # Get pty
         shell.sendline(f'{self.find_pty_spawn_vector(shell)}; exit'.encode())
 
-        shell.recv(timeout = 2) # Wait for pty to spawn
+        shell.recv(timeout = None) # Wait for pty to spawn
         shell.sendline(b'export HISTFILE=/dev/null')
         shell.sendline(b'stty rows 38 columns 116')
         shell.sendline(b""" alias ls='ls --color=auto'""")
