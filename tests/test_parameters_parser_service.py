@@ -1,5 +1,5 @@
-from argparse import Namespace
 import unittest, sys
+from argparse import Namespace
 from io import StringIO
 from services import ParametersParserService
 
