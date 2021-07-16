@@ -45,13 +45,13 @@ class LoginService:
             'log': username,
             'pwd': password,
             'rememberme': 'forever',
-            'redirect_to': f'{self.wp_url}/wp-admin/themes.php',
+            'redirect_to': f'{self.wp_url}/wp-admin',
             'redirect_to_automatic': '1'
         }
         wp_admin_session = requests.Session()
         response = wp_admin_session.post(f'{self.wp_url}/wp-login.php', data=login_data, headers=DEFAULT_HEADERS)
 
-        if(not response.ok):
+        if(not response.ok or 'login_error' in response.text):
             raise Exception('Error  trying to login')
 
         return wp_admin_session

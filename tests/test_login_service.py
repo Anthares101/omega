@@ -38,7 +38,7 @@ class LoginServiceTest(unittest.TestCase):
             'method'         : responses.POST,
             'url'            : f'{self.wp_url}/xmlrpc.php',
             'status'         : 200,
-            'body'           : mocks.xmlrpc_right_admin_credentials
+            'body'           : mocks.xmlrpc_right_admin_credentials_response
         })
 
         login_service = LoginService(self.wp_url)
@@ -50,7 +50,7 @@ class LoginServiceTest(unittest.TestCase):
             'method'         : responses.POST,
             'url'            : f'{self.wp_url}/xmlrpc.php',
             'status'         : 200,
-            'body'           : mocks.xmlrpc_right_not_admin_credentials
+            'body'           : mocks.xmlrpc_right_not_admin_credentials_response
         })
 
         login_service = LoginService(self.wp_url)
@@ -62,7 +62,7 @@ class LoginServiceTest(unittest.TestCase):
             'method'         : responses.POST,
             'url'            : f'{self.wp_url}/xmlrpc.php',
             'status'         : 200,
-            'body'           : mocks.xmlrpc_wrong_credentials
+            'body'           : mocks.xmlrpc_wrong_credentials_response
         })
 
         login_service = LoginService(self.wp_url)
