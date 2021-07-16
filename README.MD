@@ -31,13 +31,14 @@ If you have all the requirements you can start playing with Omega! You can add t
 ```
 Omega - From Wordpress admin to shell
 
-usage: omega.py [-h] [-v] -u WP_URL -l USERNAME -p PASSWORD -H LHOST [-P LPORT]
+usage: omega.py [-h] [-v] [--no-pty] -u WP_URL -l USERNAME -p PASSWORD -H LHOST [-P LPORT]
 
 Provides a reverse shell to a Wordpress host (You need an admin credentials!)
 
 optional arguments:
   -h, --help            show this help message and exit
   -v, --version         show program's version number and exit
+  --no-pty              if this flag is set, no shell stabilization is perform
   -u WP_URL, --wp-url WP_URL
                         the target Wordpress url
   -l USERNAME, --username USERNAME

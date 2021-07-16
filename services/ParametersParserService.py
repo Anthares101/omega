@@ -6,7 +6,7 @@ class ParametersParserService:
 	def __init__(self):
 		self.parser = argparse.ArgumentParser(description='Provides a reverse shell to a Wordpress host (You need an admin credentials!)')
 		self.parser.add_argument('-v', '--version', action='version', version='%(prog)s version ' + VERSION)
-		self.parser.add_argument('--no-pty', action='store_true', help='if this flag is set no shell stabilization is perform')
+		self.parser.add_argument('--no-pty', action='store_true', help='if this flag is set, no shell stabilization is perform')
 		self.parser.add_argument('-u', '--wp-url', type=str, help='the target Wordpress url', required=True)
 		self.parser.add_argument('-l', '--username', type=str, help='Wordpress admin user to use for login', required=True)
 		self.parser.add_argument('-p', '--password', type=str, help='Wordpress admin password to use for login', required=True)
