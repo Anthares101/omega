@@ -80,7 +80,7 @@ def main(args: Namespace):
     shell.interactive()
 
 if __name__ == '__main__':
-    print('Omega - From Wordpress admin to shell\n')
+    print('Omega - From Wordpress admin to pty\n')
 
     parameterParserService = ParametersParserService()
     args = parameterParserService.parse_params()

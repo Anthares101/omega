@@ -1,14 +1,14 @@
-<img alt="GitHub" src="https://img.shields.io/badge/version-v1.2-blue"> <img alt="GitHub" src="https://img.shields.io/github/license/anthares101/omega">
+<img alt="GitHub" src="https://img.shields.io/badge/version-v2.0-blue"> <img alt="GitHub" src="https://img.shields.io/github/license/anthares101/omega">
 
 # Omega - From Wordpress admin to pty
 
 The Linux tool to automate the process of getting a pty once you got admin credentials in a Wordpress site. Keep in mind that right now Omega only can attack Linux hosts.
 
-![Omega getting a shell to a Wordpress host](assets/demo.gif)
+![Omega getting a pty to a Wordpress host](assets/demo.gif)
 
 ## How does it work?
 
-First Omega get an admin session in the Wordpress site and using web scrapping, it extracts the current template used by wordpress. After that, it will use the template editor to inject a simple web shell.
+First, Omega gets an admin session in the Wordpress site and using web scrapping, it extracts the current template used by wordpress. After that, it will use the template editor to inject a simple web shell.
 
 Once everything is set up, Omega will spin up a listenner, execute a reverse shell using the web shell injected and wait for the shell to connect back. Before giving the control to the user, Omega will try to stabilize the shell and get a pty.
 
@@ -29,11 +29,11 @@ You can use a virtual env to install the dependencies or intall them system wide
 If you have all the requirements you can start playing with Omega! You can add the repository folder to your `PATH` and execute the tool everywhere.
 
 ```
-Omega - From Wordpress admin to shell
+Omega - From Wordpress admin to pty
 
 usage: omega.py [-h] [-v] [--no-pty] -u WP_URL -l USERNAME -p PASSWORD -H LHOST [-P LPORT]
 
-Provides a reverse shell to a Wordpress host (You need an admin credentials!)
+Provides a reverse shell (stabilized if possible) to a Wordpress host. You need admin credentials!
 
 optional arguments:
   -h, --help            show this help message and exit
