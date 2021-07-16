@@ -30,7 +30,7 @@ def shell_handler(shell: listen):
 
 
 def main(args: Namespace):
-    wp_url = args.wp_url
+    wp_url = args.wp_url.strip('/')
     username = args.username
     password = args.password
     lhost = args.lhost
