@@ -22,7 +22,7 @@ class ParametersParserServiceTest(unittest.TestCase):
         with unittest.mock.patch('sys.stderr', new=StringIO()):
             try:
                 params = parameterParserService.parse_params()
-                self.assertEqual(params, Namespace(lhost='127.0.0.1', lport=8000, password='password', username='user', wp_url='http://example'))
+                self.assertEqual(params, Namespace(lhost='127.0.0.1', lport=8000, no_pty=False, password='password', username='user', wp_url='http://example'))
             except SystemExit:
                 raise Exception('Wrong parameters!')
     
@@ -33,7 +33,7 @@ class ParametersParserServiceTest(unittest.TestCase):
         with unittest.mock.patch('sys.stderr', new=StringIO()):
             try:
                 params = parameterParserService.parse_params()
-                self.assertEqual(params, Namespace(lhost='127.0.0.1', lport=8080, password='password', username='user', wp_url='http://example'))
+                self.assertEqual(params, Namespace(lhost='127.0.0.1', lport=8080, no_pty=False, password='password', username='user', wp_url='http://example'))
             except SystemExit:
                 raise Exception('Wrong parameters!')
     

