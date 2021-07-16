@@ -1,8 +1,8 @@
 <img alt="GitHub" src="https://img.shields.io/badge/version-v1.2-blue"> <img alt="GitHub" src="https://img.shields.io/github/license/anthares101/omega">
 
-# Omega - From Wordpress admin to shell
+# Omega - From Wordpress admin to pty
 
-This tool is to automate the process of getting a shell once you got admin credentials in a Wordpress site. Keep in mind that right now Omega only can attack Linux hosts.
+The Linux tool to automate the process of getting a pty once you got admin credentials in a Wordpress site. Keep in mind that right now Omega only can attack Linux hosts.
 
 ![Omega getting a shell to a Wordpress host](assets/demo.gif)
 
@@ -10,13 +10,13 @@ This tool is to automate the process of getting a shell once you got admin crede
 
 First Omega get an admin session in the Wordpress site and using web scrapping, it extracts the current template used by wordpress. After that, it will use the template editor to inject a simple web shell.
 
-Once everything is set up, Omega will spin up a listenner, execute a reverse shell using the web shell injected and wait for the shell to connect back before giving the control the user.
+Once everything is set up, Omega will spin up a listenner, execute a reverse shell using the web shell injected and wait for the shell to connect back. Before giving the control to the user, Omega will try to stabilize the shell and get a pty.
 
-The shell can be stabilize without problems using any method (I hope at least :D).
+If stabilization is not possible using the methods Omega has, a non tty shell will be provided that can be stabilize without problems using any method you want.
 
 ## Requirements
 
-You need Python 3 installed in your system and also some dependencies that can be installed executing:
+You need Python 3 installed in your system and also some dependencies that can be installed executing (Keep in mind that this tool only works in Linux):
 
 ```bash
 pip3 install -r requirements.txt
@@ -31,13 +31,14 @@ If you have all the requirements you can start playing with Omega! You can add t
 ```
 Omega - From Wordpress admin to shell
 
-usage: omega.py [-h] [-v] -u WP_URL -l USERNAME -p PASSWORD -H LHOST [-P LPORT]
+usage: omega.py [-h] [-v] [--no-pty] -u WP_URL -l USERNAME -p PASSWORD -H LHOST [-P LPORT]
 
 Provides a reverse shell to a Wordpress host (You need an admin credentials!)
 
 optional arguments:
   -h, --help            show this help message and exit
   -v, --version         show program's version number and exit
+  --no-pty              if this flag is set, no shell stabilization is perform
   -u WP_URL, --wp-url WP_URL
                         the target Wordpress url
   -l USERNAME, --username USERNAME
