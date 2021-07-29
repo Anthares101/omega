@@ -2,7 +2,9 @@
 
 # Omega - From Wordpress admin to pty
 
-The Linux tool to automate the process of getting a pty once you got admin credentials in a Wordpress site. Works in Linux, Windows and MacOS hosts! The shell code used for Windows hosts is a modified version of [this](https://github.com/ivan-sincek/php-reverse-shell) repository, credits to the author.
+The Linux tool to automate the process of getting a pty once you got admin credentials in a Wordpress site. Works in Linux, Windows and MacOS hosts! 
+
+The shell code used for Windows hosts is a modified version of [this](https://github.com/ivan-sincek/php-reverse-shell) repository, credits to the author.
 
 ![Omega getting a pty to a Wordpress host](assets/demo.gif)
 
