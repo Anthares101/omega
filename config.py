@@ -1,7 +1,7 @@
 from pwnlib import useragents
 
 
-VERSION = '2.0'
+VERSION = '2.1'
 
 DEFAULT_HEADERS = {
     'User-Agent': useragents.random()
