@@ -22,7 +22,7 @@ SHELL_STABILIZATION_METHODS = {
     }
 }
 
-# I modified this https://github.com/ivan-sincek/php-reverse-shell a bit to take only the windows part
+# Code from https://github.com/ivan-sincek/php-reverse-shell, modified a bit to take only the windows part
 SHELL_CODE = """
 class Shell {
     private $addr  = null;
