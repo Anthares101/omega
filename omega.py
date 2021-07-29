@@ -57,7 +57,7 @@ def main(args: Namespace):
         shell.recvline_contains(b'$', timeout=0.5) # Check shell came back
         p.success('Got a shell!')
     
-    if(not no_pty):
+    if(not no_pty and shell_service.is_linux()):
         with log.progress('Trying to stabilize the shell...') as p:
             try:
                 shell_service.upgrade_shell(shell)

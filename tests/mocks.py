@@ -134,3 +134,7 @@ get_footer();
                 </div>
         </script>
 </form>"""
+
+
+wordpress_os_detection_linux_response = """<html>OMEGA_HOST_OS = Linux</html>"""
+wordpress_os_detection_windows_response = """<html>OMEGA_HOST_OS = WINT</html>"""
