@@ -1,4 +1,4 @@
-<img alt="GitHub" src="https://img.shields.io/badge/version-v2.0-blue"> <img alt="GitHub" src="https://img.shields.io/github/license/anthares101/omega">
+<img alt="Test suite status" src="https://github.com/anthares101/omega/workflows/CI/badge.svg"> <img alt="Version v2.0" src="https://img.shields.io/badge/version-v2.0-blue"> <img alt="MIT license" src="https://img.shields.io/github/license/anthares101/omega">
 
 # Omega - From Wordpress admin to pty
 
