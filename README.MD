@@ -12,7 +12,7 @@ The shell code used for Windows hosts is a modified version of the [PHP reverse 
 
 First, Omega gets an admin session in the Wordpress site and using web scrapping, it extracts the current template used by wordpress. After that, it will use the template editor to inject a payload with a simple web shell and a base64 PHP code evaluation function.
 
-Once everything is set up, Omega will spin up a listenner, execute a reverse shell using the payload injected and wait for the shell to connect back. Before giving the control to the user, Omega will try to stabilize the shell and get a pty (Only for Linux and MacOS hosts).
+Once everything is set up, Omega will spin up a listener, execute a reverse shell using the payload injected and wait for the shell to connect back. Before giving the control to the user, Omega will try to stabilize the shell and get a pty (Only for Linux and MacOS hosts).
 
 If stabilization is not possible using the methods Omega has, a non tty shell will be provided that can be stabilize without problems using any method you want.
 
