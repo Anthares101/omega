@@ -74,6 +74,29 @@ class ShellServiceTest(unittest.TestCase):
         shell_service = ShellService(self.web_shell_url, self.lhost, self.lport)
         self.assertFalse(shell_service.is_linux())
     
+    def test_is_linux_shell(self):
+        shell_service = ShellService(self.web_shell_url, self.lhost, self.lport)
+        listener = shell_service.prepare_listener()
+        remote_shell = remote(self.lhost, self.lport)
+        remote_shell.sendline(b'$')
+
+        self.assertTrue(shell_service.is_rev_shell(listener))
+    
+    def test_is_windows_shell(self):
+        shell_service = ShellService(self.web_shell_url, self.lhost, self.lport)
+        listener = shell_service.prepare_listener()
+        remote_shell = remote(self.lhost, self.lport)
+        remote_shell.sendline(b'Windows')
+
+        self.assertTrue(shell_service.is_rev_shell(listener))
+    
+    def test_no_shell(self):
+        shell_service = ShellService(self.web_shell_url, self.lhost, self.lport)
+        listener = shell_service.prepare_listener()
+        remote(self.lhost, self.lport)
+
+        self.assertFalse(shell_service.is_rev_shell(listener))
+    
     def test_upgrade_shell(self):
         shell_service = ShellService(self.web_shell_url, self.lhost, self.lport)
         listener = shell_service.prepare_listener()
