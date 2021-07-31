@@ -1,4 +1,4 @@
-<img alt="Test suite status" src="https://img.shields.io/github/workflow/status/anthares101/omega/CI?style=for-the-badge"> <img alt="Version v2.0" src="https://img.shields.io/badge/version-v2.1-blue?style=for-the-badge"> <img alt="GPL-2.0 license" src="https://img.shields.io/github/license/anthares101/omega?style=for-the-badge">
+<img alt="Test suite status" src="https://img.shields.io/github/workflow/status/anthares101/omega/CI?style=for-the-badge"> <img alt="Version v2.2" src="https://img.shields.io/badge/version-v2.2-blue?style=for-the-badge"> <img alt="GPL-2.0 license" src="https://img.shields.io/github/license/anthares101/omega?style=for-the-badge">
 
 # Omega - From Wordpress admin to pty
 
