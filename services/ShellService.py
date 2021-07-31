@@ -55,7 +55,7 @@ class ShellService:
         shell.sendline(b""" alias ls='ls --color=auto'""")
         shell.sendline(b'export TERM=xterm')
         shell.sendline(b'history -c')
-        shell.clean()
+        shell.clean(timeout=1)
     
     def find_pty_spawn_vector(self, shell: listen) -> str:
         shell.clean()
