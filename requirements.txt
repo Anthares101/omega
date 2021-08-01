@@ -1,5 +1,5 @@
-pwntools
-requests
-bs4
-lxml
-responses
+# This requirements.txt file simply hits the setup.py file and
+# installs the 'install_requires' python modules, the magic command
+# to do that is simply '-e .': so here it is
+
+-e .

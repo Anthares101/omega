@@ -1,7 +1,7 @@
 import unittest, responses
-from services import ShellService
 from pwnlib.tubes.remote import remote
-from config import SHELL_STABILIZATION_METHODS
+from omega_wp.services import ShellService
+from omega_wp.config import SHELL_STABILIZATION_METHODS
 from tests import mocks
 
 

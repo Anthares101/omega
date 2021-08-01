@@ -1,4 +1,4 @@
-<img alt="Test suite status" src="https://img.shields.io/github/workflow/status/anthares101/omega/CI?style=for-the-badge"> <img alt="Version v2.4" src="https://img.shields.io/badge/version-v2.4-blue?style=for-the-badge"> <img alt="GPL-2.0 license" src="https://img.shields.io/github/license/anthares101/omega?style=for-the-badge">
+<img alt="Test suite status" src="https://img.shields.io/github/workflow/status/anthares101/omega/CI?style=for-the-badge"> <img alt="Version v2.5" src="https://img.shields.io/badge/version-v2.5-blue?style=for-the-badge"> <img alt="GPL-2.0 license" src="https://img.shields.io/github/license/anthares101/omega?style=for-the-badge">
 
 # Omega - From Wordpress admin to pty
 
@@ -16,15 +16,13 @@ Once everything is set up, Omega will spin up a listener, execute a reverse shel
 
 If stabilization is not possible using the methods Omega has, a non tty shell will be provided that can be stabilize without problems using any method you want.
 
-## Requirements
+## Installation
 
-You need Python 3 installed in your system and also some dependencies that can be installed executing (Keep in mind that this tool only works in Linux):
+Just execute `pip3 install omega_wp` and enjoy! Also, you can clone the repository and execute `pip3 install -r requirements.txt`.
 
-```bash
-pip3 install -r requirements.txt
-```
+## Testing
 
-You can use a virtual env to install the dependencies or intall them system wide.
+To launch the testing suite just execute `python3 -m unittest` after installation.
 
 ## Usage
 
@@ -33,7 +31,7 @@ If you have all the requirements you can start playing with Omega! You can add t
 ```
 Omega - From Wordpress admin to pty
 
-usage: omega.py [-h] [-v] [--no-pty] -u WP_URL -l USERNAME -p PASSWORD -H LHOST [-P LPORT]
+usage: omega [-h] [-v] [--no-pty] -u WP_URL -l USERNAME -p PASSWORD -H LHOST [-P LPORT]
 
 Provides a reverse shell (stabilized if possible) to a Wordpress host. You need admin credentials!
 

@@ -1,6 +1,6 @@
 import requests
 import base64
-from config import SHELL_STABILIZATION_METHODS, SHELL_CODE, DEFAULT_HEADERS
+from omega_wp.config import SHELL_STABILIZATION_METHODS, SHELL_CODE, DEFAULT_HEADERS
 from pwnlib.tubes.listen import listen
 
 

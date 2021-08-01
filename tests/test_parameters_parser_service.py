@@ -1,7 +1,7 @@
 import unittest, sys
 from argparse import Namespace
 from io import StringIO
-from services import ParametersParserService
+from omega_wp.services import ParametersParserService
 
 
 class ParametersParserServiceTest(unittest.TestCase):

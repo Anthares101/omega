@@ -1,5 +1,5 @@
 import unittest, responses, requests
-from services import PayloadService
+from omega_wp.services import PayloadService
 from tests import mocks
 
 

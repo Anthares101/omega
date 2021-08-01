@@ -1,5 +1,5 @@
 import argparse
-from config import VERSION
+from omega_wp.config import VERSION
 
 
 class ParametersParserService:

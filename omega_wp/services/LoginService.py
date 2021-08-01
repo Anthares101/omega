@@ -1,7 +1,7 @@
 import requests
 import json
 from bs4 import BeautifulSoup
-from config import DEFAULT_HEADERS
+from omega_wp.config import DEFAULT_HEADERS
 
 
 class LoginService:
