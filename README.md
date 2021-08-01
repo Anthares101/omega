@@ -6,7 +6,7 @@ The Linux tool to automate the process of getting a pty once you got admin crede
 
 The shell code used for Windows hosts is a modified version of the [PHP reverse shell](https://github.com/ivan-sincek/php-reverse-shell/blob/master/src/php_reverse_shell.php) by [ivan-sincek](https://github.com/ivan-sincek), credits to the author.
 
-![Omega getting a pty to a Wordpress host](assets/demo.gif)
+![Omega getting a pty to a Wordpress host](https://raw.githubusercontent.com/anthares101/omega/master/assets/demo.gif)
 
 ## How does it work?
 
@@ -18,7 +18,7 @@ If stabilization is not possible using the methods Omega has, a non tty shell wi
 
 ## Installation
 
-Just execute `pip3 install omega_wp` and enjoy! Also, you can clone the repository and execute `pip3 install -r requirements.txt`.
+Just execute `pip3 install omega-wp` and enjoy! Also, you can clone the repository and execute `pip3 install -r requirements.txt`.
 
 ## Testing
 
