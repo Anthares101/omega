@@ -18,11 +18,7 @@ If stabilization is not possible using the methods Omega has, a non tty shell wi
 
 ## Installation
 
-Just execute `pip3 install omega-wp` and enjoy! Also, you can clone the repository and execute `pip3 install -r requirements.txt`.
-
-## Testing
-
-To launch the testing suite just execute `python3 -m unittest` after installation.
+Just execute `pip3 install omega-wp` and enjoy! You can use a virtual env or intall it system wide.
 
 ## Usage
 
