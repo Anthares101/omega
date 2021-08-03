@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='omega_wp',
-    version='2.5.post2',
+    version='2.5.post3',
     license='GPL-2.0',
     description='From Wordpress admin to pty automatically!',
     author='Ángel Heredia',
@@ -14,9 +14,13 @@ setup(
         'pwntools',
         'requests',
         'bs4',
-        'lxml',
-        'responses'
+        'lxml'
     ],
+    extras_require={
+        'dev': [
+            'responses',
+        ]
+    },
     entry_points='''
         [console_scripts]
         omega=omega_wp.__main__:main

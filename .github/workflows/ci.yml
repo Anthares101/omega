@@ -15,7 +15,8 @@ jobs:
 
       - name: Install deps
         run: |
-          python3 setup.py install
+          python3 -m pip install wheel
+          python3 -m pip install .[dev]
 
       - name: Run tests
         run: |

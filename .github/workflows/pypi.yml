@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: |
           python3 -m pip install setuptools wheel twine
-          python3 setup.py install
+          python3 -m pip install .[dev]
           
       - name: Test with unittest
         run: python3 -m unittest
