@@ -10,11 +10,11 @@ The shell code used for Windows hosts is a modified version of the [PHP reverse 
 
 ## How does it work?
 
-First, Omega gets an admin session in the Wordpress site and using web scrapping, it extracts the current template used by wordpress. After that, it will use the template editor to inject a payload with a simple web shell and a base64 PHP code evaluation function.
+First, Omega gets an admin session in the Wordpress site and using web scrapping, it extracts the current template used by Wordpress. After that, it will use the template editor to inject a payload with a simple web shell and a base64 PHP code evaluation function.
 
 Once everything is set up, Omega will spin up a listener, execute a reverse shell using the payload injected and wait for the shell to connect back. Before giving the control to the user, Omega will try to stabilize the shell and get a pty (Only for Linux and MacOS hosts).
 
-If stabilization is not possible using the methods Omega has, a non tty shell will be provided that can be stabilize without problems using any method you want.
+If stabilization is not possible using the methods Omega has, a non tty shell will be provided that can be stabilized without problems using any method you want.
 
 ## Installation
 
@@ -22,7 +22,7 @@ Just execute `pip3 install omega-wp` and enjoy! You can use a virtual env or int
 
 ## Usage
 
-If you have all the requirements you can start playing with Omega! You can add the repository folder to your `PATH` and execute the tool everywhere.
+If you have all the requirements you can start playing with Omega!
 
 ```
 Omega - From Wordpress admin to pty
