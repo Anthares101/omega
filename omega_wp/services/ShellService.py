@@ -37,10 +37,10 @@ class ShellService:
         return 'OMEGA_HOST_OS = LINUX' in response.content.decode().upper()
 
     def is_rev_shell(self, shell: listen) -> bool:
-        data_received = shell.recv(timeout=0.5)
+        data_received = shell.recvrepeat(timeout=1)
         shell.unrecv(data_received)
 
-        if (not b'$' in data_received and not b'Windows' in data_received):
+        if (not b'$' in data_received and not b'#' in data_received and not b'Windows' in data_received):
             return False
         return True
 
@@ -62,11 +62,11 @@ class ShellService:
 
         for binary in SHELL_STABILIZATION_METHODS:
             shell.sendline(f'which {binary}'.encode())
-            result = shell.recvline(timeout=2).decode()
+            result = shell.recvrepeat(timeout=2).decode()
             if(binary in result and 'not found' not in result):
                 for shell_binary in SHELL_STABILIZATION_METHODS[binary]:
                     shell.sendline(f'which {shell_binary}'.encode())
-                    result = shell.recvline(timeout=2).decode()
+                    result = shell.recvrepeat(timeout=2).decode()
                     if(shell_binary in result and 'not found' not in result):
                         return SHELL_STABILIZATION_METHODS[binary][shell_binary]
             shell.clean()
