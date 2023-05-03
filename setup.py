@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='omega_wp',
-    version='2.6',
+    version='2.6.post1',
     license='GPL-2.0',
     description='From Wordpress admin to pty automatically!',
     author='Ángel Heredia',
