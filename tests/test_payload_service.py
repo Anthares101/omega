@@ -16,7 +16,7 @@ class PayloadServiceTest(unittest.TestCase):
         })
         
         payload_service = PayloadService(self.wp_url, requests.Session())
-        self.assertEqual(payload_service.get_theme_name(), 'twentytwentyone')
+        self.assertEqual(payload_service.get_theme_name(), 'twentytwentyfour')
     
     @responses.activate
     def test_get_theme_name_error(self):
@@ -27,31 +27,31 @@ class PayloadServiceTest(unittest.TestCase):
         })
         
         payload_service = PayloadService(self.wp_url, requests.Session())
-        self.assertRaises(Exception, payload_service.get_theme_name, 'twentytwentyone')
+        self.assertRaises(Exception, payload_service.get_theme_name, 'twentytwentyfour')
     
     @responses.activate
-    def test_get_theme_404_template_form_data(self):
+    def test_get_theme_footer_template_form_data(self):
         responses.add(**{
             'method'         : responses.GET,
-            'url'            : f'{self.wp_url}/wp-admin/theme-editor.php?file=404.php&theme=twentytwentyone',
+            'url'            : f'{self.wp_url}/wp-admin/theme-editor.php?file=patterns%2Ffooter.php&theme=twentytwentyfour',
             'status'         : 200,
             'body'           : mocks.wordpress_theme_editor_response
         })
         
         payload_service = PayloadService(self.wp_url, requests.Session())
-        form_data = payload_service.get_theme_404_template_form_data('twentytwentyone')
+        form_data = payload_service.get_theme_footer_template_form_data('twentytwentyfour')
         self.assertTrue(type(form_data) is dict)
     
     @responses.activate
-    def test_get_theme_404_template_form_data_error(self):
+    def test_get_theme_footer_template_form_data_error(self):
         responses.add(**{
             'method'         : responses.GET,
-            'url'            : f'{self.wp_url}/wp-admin/theme-editor.php?file=404.php&theme=twentytwentyone',
+            'url'            : f'{self.wp_url}/wp-admin/theme-editor.php?file=patterns%2Ffooter.php&theme=twentytwentyfour',
             'status'         : 403
         })
         
         payload_service = PayloadService(self.wp_url, requests.Session())
-        self.assertRaises(Exception, payload_service.get_theme_404_template_form_data, 'twentytwentyone')
+        self.assertRaises(Exception, payload_service.get_theme_footer_template_form_data, 'twentytwentyfour')
     
     def test_is_payload_already_dropped(self):
         payload_service = PayloadService(self.wp_url, requests.Session())
@@ -71,7 +71,7 @@ class PayloadServiceTest(unittest.TestCase):
         })
         responses.add(**{
             'method'         : responses.GET,
-            'url'            : f'{self.wp_url}/wp-admin/theme-editor.php?file=404.php&theme=twentytwentyone',
+            'url'            : f'{self.wp_url}/wp-admin/theme-editor.php?file=patterns%2Ffooter.php&theme=twentytwentyfour',
             'status'         : 200,
             'body'           : mocks.wordpress_theme_editor_response
         })
@@ -83,7 +83,7 @@ class PayloadServiceTest(unittest.TestCase):
 
         payload_service = PayloadService(self.wp_url, requests.Session())
         result = payload_service.drop_payload()
-        self.assertEqual(result, 'http://fancy-wordpress-site.com/wp-content/themes/twentytwentyone/404.php')
+        self.assertEqual(result, 'http://fancy-wordpress-site.com/wp-content/themes/twentytwentyfour/patterns/footer.php')
     
     @responses.activate
     def test_drop_payload_error(self):
@@ -95,7 +95,7 @@ class PayloadServiceTest(unittest.TestCase):
         })
         responses.add(**{
             'method'         : responses.GET,
-            'url'            : f'{self.wp_url}/wp-admin/theme-editor.php?file=404.php&theme=twentytwentyone',
+            'url'            : f'{self.wp_url}/wp-admin/theme-editor.php?file=patterns%2Ffooter.php&theme=twentytwentyfour',
             'status'         : 200,
             'body'           : mocks.wordpress_theme_editor_response
         })
